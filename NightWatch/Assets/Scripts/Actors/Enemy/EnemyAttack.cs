@@ -47,7 +47,7 @@ public class EnemyAttack : MonoBehaviour {
                 transform.Find("Hand").transform.LookAt(currentTarget.transform);
                 RaycastHit hit;
                 // Does the ray intersect any objects excluding the player layer
-                if (Physics.Raycast(transform.Find("Hand").transform.position, transform.Find("Hand").transform.TransformDirection(Vector3.forward), out hit, Mathf.Infinity))
+                if (Physics.Raycast(transform.Find("Hand").transform.position, transform.Find("Hand").transform.TransformDirection(Vector3.forward), out hit, weapon.GetComponentInChildren<RifleInfo>().Range))
                 {
                     if (hit.collider.transform.parent != null && hit.collider.transform.parent.tag == "Player")
                     {
