@@ -8,13 +8,15 @@ public class FireGun : MonoBehaviour
     public GameObject projectile;
     GameObject fire;
     GameObject gameProjectile;
+    RifleInfo rifleInfo;
     int timer;
     int delay;
 
     // Use this for initialization
     void Start()
     {
-        delay = 30;
+        rifleInfo = GetComponent<RifleInfo>();
+        delay = rifleInfo.RateOfFire;
         timer = delay;
         fire = transform.Find("Fire").gameObject;
     }
@@ -36,10 +38,12 @@ public class FireGun : MonoBehaviour
 
     void Fire()
     {
-        gameProjectile = Instantiate(projectile, fire.transform.position, fire.transform.rotation);
         
-        gameProjectile.GetComponent<Rigidbody>().AddRelativeForce(fire.transform.forward * 150);
-        gameProjectile.transform.Rotate(Vector3.left * -90);
-        Destroy(gameProjectile, 5f);
+                gameProjectile = Instantiate(projectile, fire.transform.position, fire.transform.rotation);
+                gameProjectile.GetComponent<BulletCollision>().bulletDamage = rifleInfo.Damage;
+                gameProjectile.GetComponent<Rigidbody>().AddRelativeForce(fire.transform.forward * rifleInfo.bulletSpeed);
+                gameProjectile.transform.Rotate(Vector3.left * -90);
+                Destroy(gameProjectile, 5f);
+        
     }
 }
