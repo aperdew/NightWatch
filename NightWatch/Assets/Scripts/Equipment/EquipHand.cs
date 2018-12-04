@@ -6,7 +6,8 @@ public class EquipHand : MonoBehaviour {
      public GameObject hand;
     public GameObject gun;
 	// Use this for initialization
-	void Start () {Instantiate(gun, hand.transform);
+	void Start () {
+        Instantiate(gun, hand.transform);
 	}
 	
 	// Update is called once per frame
