@@ -42,7 +42,6 @@ public class ClickOrders : MonoBehaviour {
                     }
                     else
                     {
-                        Debug.Log("Stop attacking");
                         selectedPlayer.GetComponent<PlayerAttack>().StopAttacking();
                     }
                 }

@@ -23,10 +23,9 @@ public class BulletCollision : MonoBehaviour {
 
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log(other.gameObject.name);
         if (enableBulletCollision && other.transform.tag != "Player" && other.transform.tag !="Enemy"&& other.transform.parent != null)
         {
-            GameObject parentGameObject = other.gameObject.transform.parent.gameObject;
+            GameObject parentGameObject = other.transform.parent.gameObject;
             if (parentGameObject.tag == "Enemy" || parentGameObject.tag == "Player")
             {
                 parentGameObject.GetComponent<Health>().takeDamage(bulletDamage);
