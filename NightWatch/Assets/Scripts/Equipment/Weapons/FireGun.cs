@@ -41,6 +41,7 @@ public class FireGun : MonoBehaviour
         
                 gameProjectile = Instantiate(projectile, fire.transform.position, fire.transform.rotation);
                 gameProjectile.GetComponent<BulletCollision>().bulletDamage = rifleInfo.Damage;
+                gameProjectile.GetComponent<BulletCollision>().owner = gameObject;
                 gameProjectile.GetComponent<Rigidbody>().AddRelativeForce(fire.transform.forward * rifleInfo.bulletSpeed);
                 gameProjectile.transform.Rotate(Vector3.left * -90);
                 Destroy(gameProjectile, 5f);

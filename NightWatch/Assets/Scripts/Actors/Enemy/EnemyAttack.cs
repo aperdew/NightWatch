@@ -18,7 +18,21 @@ public class EnemyAttack : MonoBehaviour {
     // Update is called once per frame
     void Update()
     {
-        if (targets.Count > 0 && weapon != null)
+        if (currentTarget == null)
+        {
+            if (targets.Count > 0)
+            {
+                RemoveNullTargets();
+                if (targets.Count > 0)
+                {
+                    currentTarget = targets[0];
+                    nav.SetDestination(currentTarget.transform.position);
+                }
+            }
+            nav.isStopped = false;
+            weapon.GetComponentInChildren<FireGun>().enabled = false;
+        }
+        else if (currentTarget != null && weapon != null)
         {
             //if(currentTarget != null)
             //{
@@ -32,13 +46,6 @@ public class EnemyAttack : MonoBehaviour {
             //        }
             //    }
             //}
-            if (currentTarget == null)
-            {
-                weapon.GetComponentInChildren<FireGun>().enabled = false;
-                nav.isStopped = false;
-                currentTarget = targets[0];
-                nav.SetDestination(currentTarget.transform.position);
-            }
 
             if (Vector3.Distance(transform.position, currentTarget.transform.position) <= weapon.GetComponentInChildren<RifleInfo>().Range)
             {
@@ -61,6 +68,7 @@ public class EnemyAttack : MonoBehaviour {
             }
             else
             {
+                weapon.GetComponentInChildren<FireGun>().enabled = false;
                 nav.isStopped = false;
                 nav.SetDestination(currentTarget.transform.position);
             }
@@ -78,6 +86,11 @@ public class EnemyAttack : MonoBehaviour {
         {
             weapon.GetComponentInChildren<FireGun>().enabled = false;
         }
+    }
+
+    private void RemoveNullTargets()
+    {
+        targets.RemoveAll(item => item == null);
     }
 
     private void OnTriggerEnter(Collider other)

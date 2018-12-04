@@ -31,7 +31,7 @@ public class ClickOrders : MonoBehaviour {
             }
             if (Input.GetButtonDown("Fire2"))
             {
-                if ( hit.transform.tag != "Player")
+                if ( hit.transform.tag != "Player" || hit.transform.tag != "Cover")
                 {
                     UnityEngine.AI.NavMeshAgent nav = selectedPlayer.GetComponent<UnityEngine.AI.NavMeshAgent>();
                     nav.isStopped = false;
