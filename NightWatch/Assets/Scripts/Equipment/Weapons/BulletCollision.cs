@@ -7,9 +7,11 @@ public class BulletCollision : MonoBehaviour {
     int delay;
     bool enableBulletCollision;
     public GameObject owner;
+    GameObject bulletHitEffect;
 	// Use this for initialization
 	void Start () {
         enableBulletCollision = false;
+        bulletHitEffect = transform.Find("BulletHit").gameObject;
 	}
 	
 	// Update is called once per frame
@@ -31,7 +33,7 @@ public class BulletCollision : MonoBehaviour {
             if (parentGameObject.tag == "Enemy" || parentGameObject.tag == "Player")
             {
                 parentGameObject.GetComponent<Health>().takeDamage(bulletDamage);
-                Destroy(gameObject);
+                DestroyProjectile();
             }
         }        
     }
@@ -43,5 +45,15 @@ public class BulletCollision : MonoBehaviour {
             return 0f;
         }
         return Vector3.Distance(gameObject.transform.position, owner.transform.position);
+    }
+
+    public void DestroyProjectile()
+    {
+        Debug.Log("playing");
+        //bulletHitEffect.transform.parent = null;
+        bulletHitEffect.GetComponent<ParticleSystem>().Play();
+        gameObject.GetComponent<Rigidbody>().velocity = Vector3.zero;
+        gameObject.GetComponent<MeshRenderer>().enabled = false;
+        Destroy(gameObject, 2f);
     }
 }

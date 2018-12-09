@@ -26,7 +26,8 @@ public class CoverSystem : MonoBehaviour
             int chance = Random.Range(1, 10);
             if (chance <= coverEffectiveness && other.gameObject.GetComponent<BulletCollision>().GetDistanceFromOwner() > 1.5f)
             {
-                Destroy(other.gameObject);
+                other.gameObject.GetComponent<BulletCollision>().DestroyProjectile();
+                //Destroy(other.gameObject);
             }
         }
     }

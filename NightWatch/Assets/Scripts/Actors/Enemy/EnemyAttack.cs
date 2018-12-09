@@ -18,7 +18,12 @@ public class EnemyAttack : MonoBehaviour {
     // Update is called once per frame
     void Update()
     {
-        if (currentTarget == null)
+        //Go to the nearest piece of cover.  Do a raycast all. Order the results based upon distance.  Make sure there is cover between the enemy and the player.
+        //multiHitInfo = (Physics.RaycastAll(transform.parent.position, transform.parent.forward, Mathf.Infinity));
+        //System.Array.Sort(multiHitInfo, (x, y) => x.distance.CompareTo(y.distance));
+        //foreach (var rh in multiHitInfo)
+
+            if (currentTarget == null)
         {
             if (targets.Count > 0)
             {
