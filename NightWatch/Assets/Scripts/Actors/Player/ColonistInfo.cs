@@ -38,9 +38,10 @@ public class ColonistInfo : MonoBehaviour {
         if (newJobScript != null)
         {
             CurrentJob = newJob;
-            newJobScript.enabled = true;
             Job job = (Job)newJobScript;
+            newJobScript.enabled = true;
             job.SetTargetDestination(jobLocation);
+            job.SetResource(jobLocation.GetComponent<ObjectResource>().Resource);
             nav.isStopped = false;
         }
 
@@ -65,7 +66,8 @@ public class ColonistInfo : MonoBehaviour {
         switch(jobName)
         {
             case "Lumberjack":
-                jobScript = GetComponent<Lumberjack>();
+                jobScript = GetComponent<GatherResource>();
+
                 break;
         }
         return jobScript;

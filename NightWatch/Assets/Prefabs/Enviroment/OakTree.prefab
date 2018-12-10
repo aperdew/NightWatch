@@ -37,6 +37,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4882495771952360}
   - component: {fileID: 136029654346367778}
+  - component: {fileID: 114602683914615316}
   m_Layer: 0
   m_Name: OakTree
   m_TagString: Tree
@@ -332,6 +333,19 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1006361805666060}
   m_Mesh: {fileID: 4300000, guid: f2b77ae3306ca5243ae19c0232342aa0, type: 3}
+--- !u!114 &114602683914615316
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1193789285507936}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 871b577eae4772c44a3b4fc37d9136b3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  resourceName: Wood
+  resourceWeight: 50
 --- !u!136 &136029654346367778
 CapsuleCollider:
   m_ObjectHideFlags: 1

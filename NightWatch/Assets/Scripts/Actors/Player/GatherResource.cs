@@ -2,14 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Lumberjack : MonoBehaviour, Job {
+public class GatherResource : MonoBehaviour, Job {
     private GameObject jobLocation;
     private bool isAtJobLocation;
     private bool isDroppingOffSupplies;
     private float maxTimerTime;
     private float timerTime;
     private Inventory inventory;
-    private Item wood;
+    private Item resource;
     UnityEngine.AI.NavMeshAgent nav;
 
     // Use this for initialization
@@ -20,7 +20,6 @@ public class Lumberjack : MonoBehaviour, Job {
         isDroppingOffSupplies = false;
         maxTimerTime = 3;
         timerTime = 0;
-        wood = new Item("Wood", 50);
     }
 	
 	// Update is called once per frame
@@ -37,13 +36,13 @@ public class Lumberjack : MonoBehaviour, Job {
         }
         else if(!isDroppingOffSupplies && isAtJobLocation)
         {
-            if (inventory.DoesInventoryHaveEnoughRoom(wood))
+            if (inventory.DoesInventoryHaveEnoughRoom(resource))
             {
                 timerTime += Time.deltaTime;
                 if (timerTime >= maxTimerTime)
                 {
                     timerTime = 0;
-                    inventory.Add(wood);
+                    inventory.Add(resource);
                 }
             }
             else
@@ -61,7 +60,7 @@ public class Lumberjack : MonoBehaviour, Job {
             {
                 Debug.Log("At house");
                 Inventory houseInventory = GetComponent<ColonistInfo>().House.GetComponent<Inventory>();
-                houseInventory.Add(inventory.Transfer(inventory.GetBundle(wood)));
+                houseInventory.Add(inventory.Transfer(inventory.GetBundle(resource)));
                 isAtJobLocation = false;
                 isDroppingOffSupplies = false;
                 SetTargetDestination();
@@ -80,5 +79,10 @@ public class Lumberjack : MonoBehaviour, Job {
     public void SetTargetDestination()
     {
         nav.SetDestination(jobLocation.transform.position);
+    }
+
+    public void SetResource(Item item)
+    {
+        resource = item;
     }
 }
