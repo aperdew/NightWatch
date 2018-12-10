@@ -4,8 +4,8 @@
     public Bundle(Item item)
     {
         this.item = item;
-        Count = 0;
-        Weight = 0;
+        Count = 1;
+        Weight = item.Weight;
     }
 
     public int Count { get; private set; }
@@ -28,15 +28,16 @@
     }
 
     /// <summary>
-    /// Adds an item to the bundle if they have the same type.
+    /// Adds a number of items to the bundle if they have the same type.
     /// </summary>
-    /// <param name="itemName">The name of the item to add to the bundle.</param>
-    public void Add(string itemName)
+    /// <param name="item">The item to add to the bundle.</param>
+    /// /// <param name="i">The number of items to add</param>
+    public void Add(Item item, int i)
     {
-        if (itemName == Type)
+        if (item.Name == Type)
         {
-            Count += 1;
-            Weight += item.Weight;
+            Count += i;
+            Weight += i * item.Weight;
         }
     }
 
@@ -64,19 +65,6 @@
         {
             Count -= i;
             Weight -= i * item.Weight;
-        }
-    }
-
-    /// <summary>
-    /// Removes an item from the bundle if they have the same type and the bundle isn't empty.
-    /// </summary>
-    /// <param name="itemName">The name of the item to remove from the bundle.</param>
-    public void Remove(string itemName)
-    {
-        if (itemName == Type && Count>= 0)
-        {
-            Count -= 1;
-            Weight -= item.Weight;
         }
     }
 

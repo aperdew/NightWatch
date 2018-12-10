@@ -24,6 +24,7 @@ public class HouseOccupants : MonoBehaviour {
         if (occupants.Count < maxNumberOfOccupants)
         {
             GameObject colonist = Instantiate(colonistPrefab, transform.forward + new Vector3(0, 0, -3f), Quaternion.identity);
+            colonist.GetComponent<ColonistInfo>().House = gameObject;
             occupants.Add(colonist);
         }
     }

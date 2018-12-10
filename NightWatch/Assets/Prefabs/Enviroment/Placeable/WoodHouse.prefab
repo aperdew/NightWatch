@@ -71,9 +71,10 @@ GameObject:
   m_Component:
   - component: {fileID: 4828399331375434}
   - component: {fileID: 114943911910999038}
+  - component: {fileID: 114211492187973888}
   m_Layer: 0
   m_Name: WoodHouse
-  m_TagString: Untagged
+  m_TagString: House
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
@@ -332,6 +333,18 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1325000631949808}
   m_Mesh: {fileID: 4300002, guid: a2209e6f0553ccd4ba52c1d84d7c9853, type: 3}
+--- !u!114 &114211492187973888
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1520266737581462}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7f64a8d6a3b9e07429fe6ebf62a3e6a0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxWeight: 1000
 --- !u!114 &114943911910999038
 MonoBehaviour:
   m_ObjectHideFlags: 1

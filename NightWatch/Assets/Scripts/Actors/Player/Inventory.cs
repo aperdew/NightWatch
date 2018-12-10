@@ -5,15 +5,17 @@ public class Inventory : MonoBehaviour
 {
 
     private List<Bundle> inventoryList;
-    readonly float maxWeight = 100;
+    public float maxWeight;
 
     void Start()
     {
         inventoryList = new List<Bundle>();
+        CurrentWeight = 0;
+        MaxWeight = maxWeight;
     }
 
     public float CurrentWeight { get; private set; }
-    public float MaxWeight { get { return maxWeight; } }
+    public float MaxWeight { get; private set; }
 
     /// <summary>
     /// Adds a bundle to the inventory provided that there is enough room. If the bundle already exists within the inventory, the bundles are merged.
@@ -23,20 +25,17 @@ public class Inventory : MonoBehaviour
     {
         if (DoesInventoryHaveEnoughRoom(bundle))
         {
-            if (!inventoryList.Contains(bundle))
+            Bundle existingBundle = inventoryList.Find(x => x.Type == bundle.Type);
+            if (existingBundle != null)
             {
-                inventoryList.Add(bundle);
-                CurrentWeight += bundle.Weight;
+                existingBundle.Merge(bundle);
+                UpdateCurrentWeight();
             }
             else
             {
-                Bundle existingBundle = inventoryList.Find(x => x.Type == bundle.Type);
-                if (existingBundle != null)
-                {
-                    existingBundle.Merge(bundle);
-                    UpdateCurrentWeight();
-                }
-            }
+                inventoryList.Add(bundle);
+                CurrentWeight += bundle.Weight;
+            }            
         }
     }
 
@@ -49,27 +48,54 @@ public class Inventory : MonoBehaviour
     {
         if (DoesInventoryHaveEnoughRoom(item))
         {
-            if (!inventoryList.Exists(x => x.Type == item.Name))
+            Bundle existingBundle = inventoryList.Find(x => x.Type == item.Name);
+            if (existingBundle != null)
             {
-                inventoryList.Add(new Bundle(item));
+                existingBundle.Add(item);
             }
             else
             {
-                Bundle existingBundle = inventoryList.Find(x => x.Type == item.Name);
-                if (existingBundle != null)
-                {
-                    existingBundle.Add(item);
-                }
+                inventoryList.Add(new Bundle(item));
             }
             CurrentWeight += item.Weight;
         }
     }
 
+    public Bundle Transfer(Bundle bundle)
+    {
+        if (bundle != null && inventoryList.Exists(x => x.Type == bundle.Type))
+        {
+            Remove(bundle);
+            return bundle;
+        }
+        return null;
+    }
+
+    public Bundle Transfer(Item item, int i)
+    {
+        if (inventoryList.Exists(x => x.Type == item.Name && x.Count - i >= 0))
+        {
+            Bundle existingBundle = inventoryList.Find(x => x.Type == item.Name);
+            if (existingBundle != null)
+            {
+                Bundle temp = existingBundle;
+                existingBundle.Remove(item, i);
+                if (existingBundle.Count == 0)
+                {
+                    Remove(existingBundle);
+                }
+                return temp;
+            }
+        }
+        return null;
+    }
+
     public void Remove(Bundle bundle)
     {
-        if (inventoryList.Contains(bundle))
+        if (inventoryList.Exists(x => x.Type == bundle.Type))
         {
             inventoryList.Remove(bundle);
+            CurrentWeight -= bundle.Weight;
         }
     }
 
@@ -84,9 +110,15 @@ public class Inventory : MonoBehaviour
                 if(existingBundle.Count ==0)
                 {
                     inventoryList.Remove(existingBundle);
+                    CurrentWeight -= i * item.Weight;
                 }
             }
         }
+    }
+
+    public Bundle GetBundle(Item item)
+    {
+        return inventoryList.Find(x => x.Type == item.Name);
     }
 
     /// <summary>
@@ -123,7 +155,7 @@ public class Inventory : MonoBehaviour
     /// <returns>Returns true if there is enough room for the bundle.  Returns false if there isn't enough room.</returns>
     public bool DoesInventoryHaveEnoughRoom(Bundle bundle)
     {
-        if(CurrentWeight + bundle.Weight <= MaxWeight)
+        if(bundle != null && CurrentWeight + bundle.Weight <= MaxWeight)
         {
             return true;
         }
