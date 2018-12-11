@@ -44,6 +44,7 @@ public class ClickOrders : MonoBehaviour {
                     {
                         selectedPlayer.GetComponent<PlayerAttack>().StopAttacking();
                     }
+                    selectedPlayer.GetComponent<ColonistInfo>().DetermineJob(hit.transform);
                 }
             }
         }

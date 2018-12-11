@@ -8,6 +8,10 @@ TagManager:
   - Enviroment
   - Projectile
   - Cover
+  - Stone
+  - Tree
+  - House
+  - Stockpile
   layers:
   - Default
   - TransparentFX
