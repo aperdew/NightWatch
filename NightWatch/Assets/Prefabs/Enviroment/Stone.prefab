@@ -23,6 +23,7 @@ GameObject:
   - component: {fileID: 23481490077304698}
   - component: {fileID: 136440620235138774}
   - component: {fileID: 136890173665232404}
+  - component: {fileID: 114960784466473110}
   m_Layer: 0
   m_Name: Stone
   m_TagString: Stone
@@ -85,6 +86,20 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1642499309335944}
   m_Mesh: {fileID: 4300000, guid: deb1589e75b8bd64d882e05073d82257, type: 3}
+--- !u!114 &114960784466473110
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1642499309335944}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 871b577eae4772c44a3b4fc37d9136b3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  resourceName: Stone
+  resourceWeight: 50
+  collectionTime: 3
 --- !u!136 &136440620235138774
 CapsuleCollider:
   m_ObjectHideFlags: 1

@@ -345,7 +345,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   resourceName: Wood
-  resourceWeight: 50
+  resourceWeight: 20
+  collectionTime: 2
 --- !u!136 &136029654346367778
 CapsuleCollider:
   m_ObjectHideFlags: 1

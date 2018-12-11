@@ -5,9 +5,10 @@ using UnityEngine;
 public class ObjectResource : MonoBehaviour {
     public string resourceName;
     public float resourceWeight;
+    public float collectionTime;
 	// Use this for initialization
 	void Start () {
-        Resource = new Item(resourceName, resourceWeight);
+        Resource = new Item(resourceName, resourceWeight, collectionTime);
 	}
 	
 	// Update is called once per frame

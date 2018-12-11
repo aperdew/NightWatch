@@ -4,9 +4,10 @@ using UnityEngine;
 
 public class GatherResource : MonoBehaviour, Job {
     private GameObject jobLocation;
+    private GameObject stockpile;
+    private ResourceManager resourceManager;
     private bool isAtJobLocation;
     private bool isDroppingOffSupplies;
-    private float maxTimerTime;
     private float timerTime;
     private Inventory inventory;
     private Item resource;
@@ -18,8 +19,9 @@ public class GatherResource : MonoBehaviour, Job {
         inventory = GetComponent<Inventory>();
         isAtJobLocation = false;
         isDroppingOffSupplies = false;
-        maxTimerTime = 3;
         timerTime = 0;
+        stockpile = GameObject.FindGameObjectWithTag("Stockpile");
+        resourceManager = GameObject.Find("ResourceManager").GetComponent<ResourceManager>();
     }
 	
 	// Update is called once per frame
@@ -28,8 +30,7 @@ public class GatherResource : MonoBehaviour, Job {
         {
             var remainingDistance = Vector3.Distance(jobLocation.transform.position, transform.position);
             if (remainingDistance <= 2f)
-            {
-                Debug.Log("At tree");
+            {                
                 isAtJobLocation = true;
                 nav.isStopped = true;
             }
@@ -39,8 +40,9 @@ public class GatherResource : MonoBehaviour, Job {
             if (inventory.DoesInventoryHaveEnoughRoom(resource))
             {
                 timerTime += Time.deltaTime;
-                if (timerTime >= maxTimerTime)
+                if (timerTime >= resource.CollectionTime)
                 {
+                    Debug.Log("Got Resource");
                     timerTime = 0;
                     inventory.Add(resource);
                 }
@@ -48,26 +50,24 @@ public class GatherResource : MonoBehaviour, Job {
             else
             {
                 nav.isStopped = false;
-                nav.SetDestination(GetComponent<ColonistInfo>().House.transform.position);
+                nav.SetDestination(stockpile.transform.position);
                 isDroppingOffSupplies = true;
                 Debug.Log("Inventory full");
             }
         }
         else
         {
-            var remainingDistance = Vector3.Distance(GetComponent<ColonistInfo>().House.transform.position, transform.position);
+            var remainingDistance = Vector3.Distance(stockpile.transform.position, transform.position);
             if (remainingDistance <= 3f)
             {
-                Debug.Log("At house");
-                Inventory houseInventory = GetComponent<ColonistInfo>().House.GetComponent<Inventory>();
-                houseInventory.Add(inventory.Transfer(inventory.GetBundle(resource)));
+                Inventory stockpileInventory = stockpile.GetComponent<Inventory>();
+                stockpileInventory.Add(inventory.TransferAll());
+                resourceManager.UpdateResourceTotals();
                 isAtJobLocation = false;
                 isDroppingOffSupplies = false;
                 SetTargetDestination();
             }
-        }
-        
-
+        }     
     }
 
     public void SetTargetDestination(GameObject target)

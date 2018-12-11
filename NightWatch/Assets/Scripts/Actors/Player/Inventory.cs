@@ -61,6 +61,17 @@ public class Inventory : MonoBehaviour
         }
     }
 
+    public void Add(List<Bundle> bundles)
+    {
+        if (bundles != null)
+        {
+            foreach (Bundle bundle in bundles)
+            {
+                Add(bundle);
+            }
+        }
+    }
+
     public Bundle Transfer(Bundle bundle)
     {
         if (bundle != null && inventoryList.Exists(x => x.Type == bundle.Type))
@@ -90,6 +101,17 @@ public class Inventory : MonoBehaviour
         return null;
     }
 
+    public List<Bundle> TransferAll()
+    {
+        Bundle[] temp = new Bundle[inventoryList.Count];
+        inventoryList.CopyTo(temp);
+        for (int i = 0; i < inventoryList.Count; i++)
+        {
+            Remove(inventoryList[i]);
+        }
+        return new List<Bundle>(temp);
+    }
+
     public void Remove(Bundle bundle)
     {
         if (inventoryList.Exists(x => x.Type == bundle.Type))
@@ -114,6 +136,11 @@ public class Inventory : MonoBehaviour
                 }
             }
         }
+    }
+
+    public List<Bundle> GetInventory()
+    {
+        return inventoryList;
     }
 
     public Bundle GetBundle(Item item)

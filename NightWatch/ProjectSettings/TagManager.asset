@@ -11,6 +11,7 @@ TagManager:
   - Stone
   - Tree
   - House
+  - Stockpile
   layers:
   - Default
   - TransparentFX

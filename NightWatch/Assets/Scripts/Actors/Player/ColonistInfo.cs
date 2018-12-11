@@ -23,7 +23,7 @@ public class ColonistInfo : MonoBehaviour {
         switch (hit.tag)
         {
             case "Stone":
-                // TODO implement stoneworking
+                SetCurrentJob("Stone Miner", hit.gameObject);
                 break;
             case "Tree":
                 SetCurrentJob("Lumberjack", hit.gameObject);
@@ -66,8 +66,8 @@ public class ColonistInfo : MonoBehaviour {
         switch(jobName)
         {
             case "Lumberjack":
+            case "Stone Miner":
                 jobScript = GetComponent<GatherResource>();
-
                 break;
         }
         return jobScript;
