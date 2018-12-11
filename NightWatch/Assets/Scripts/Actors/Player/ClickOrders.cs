@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class ClickOrders : MonoBehaviour {
 
-    GameObject selectedPlayer;
+    GameObject selectedColonist;
 	// Use this for initialization
 	void Start () {
 		
@@ -22,31 +22,45 @@ public class ClickOrders : MonoBehaviour {
             {
                 if (hit.transform.tag == "Player")
                 {
-                    selectedPlayer = hit.transform.gameObject;
+                    if(selectedColonist != null)
+                    {
+                        selectedColonist.transform.Find("Body").transform.Find("SelectionCircle").gameObject.SetActive(false);
+                    }
+                    selectedColonist = hit.transform.gameObject;
+                    selectedColonist.transform.Find("Body").transform.Find("SelectionCircle").gameObject.SetActive(true);
                 }
                 else 
                 {
-                    selectedPlayer = null;
+                    ResetSelectedColonist();
                 }
             }
             if (Input.GetButtonDown("Fire2"))
             {
-                if (( hit.transform.tag != "Player" || hit.transform.tag != "Cover") && selectedPlayer != null)
+                if (( hit.transform.tag != "Player" || hit.transform.tag != "Cover") && selectedColonist != null)
                 {
-                    UnityEngine.AI.NavMeshAgent nav = selectedPlayer.GetComponent<UnityEngine.AI.NavMeshAgent>();
+                    UnityEngine.AI.NavMeshAgent nav = selectedColonist.GetComponent<UnityEngine.AI.NavMeshAgent>();
                     nav.isStopped = false;
                     nav.SetDestination(hit.point);
                     if(hit.transform.tag == "Enemy")
                     {
-                        selectedPlayer.GetComponent<PlayerAttack>().enabled = true;
+                        selectedColonist.GetComponent<PlayerAttack>().enabled = true;
                     }
                     else
                     {
-                        selectedPlayer.GetComponent<PlayerAttack>().StopAttacking();
+                        selectedColonist.GetComponent<PlayerAttack>().StopAttacking();
                     }
-                    selectedPlayer.GetComponent<ColonistInfo>().DetermineJob(hit.transform);
+                    selectedColonist.GetComponent<ColonistInfo>().DetermineJob(hit.transform);
                 }
             }
+        }
+    }
+
+    public void ResetSelectedColonist()
+    {
+        if (selectedColonist != null)
+        {
+            selectedColonist.transform.Find("Body").transform.Find("SelectionCircle").gameObject.SetActive(false);
+            selectedColonist = null;
         }
     }
 }

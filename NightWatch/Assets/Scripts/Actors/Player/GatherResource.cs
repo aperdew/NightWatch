@@ -61,11 +61,19 @@ public class GatherResource : MonoBehaviour, Job {
             if (remainingDistance <= 3f)
             {
                 Inventory stockpileInventory = stockpile.GetComponent<Inventory>();
-                stockpileInventory.Add(inventory.TransferAll());
-                resourceManager.UpdateResourceTotals();
-                isAtJobLocation = false;
-                isDroppingOffSupplies = false;
-                SetTargetDestination();
+                bool wasTransferSuccessful = inventory.TransferAll(stockpileInventory);
+                if (wasTransferSuccessful)
+                {
+                    resourceManager.UpdateResourceTotals();
+                    isAtJobLocation = false;
+                    isDroppingOffSupplies = false;
+                    SetTargetDestination();
+                }
+                else
+                {
+                    Debug.Log("Transfer failed.  Idle state active.");
+                    gameObject.GetComponent<ColonistInfo>().ResetCurrentJob();
+                }
             }
         }     
     }

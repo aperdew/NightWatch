@@ -47,7 +47,7 @@ public class ColonistInfo : MonoBehaviour {
 
     }
 
-    private void ResetCurrentJob()
+    public void ResetCurrentJob()
     {
         if (CurrentJob != null)
         {
