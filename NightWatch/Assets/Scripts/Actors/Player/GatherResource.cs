@@ -11,6 +11,9 @@ public class GatherResource : MonoBehaviour, Job {
     private float timerTime;
     private Inventory inventory;
     private Item resource;
+    private enum State { GoingToJob, GatheringResources, HaulingResources}
+    private State currentState;
+    private float remainingDistance;
     UnityEngine.AI.NavMeshAgent nav;
 
     // Use this for initialization
@@ -22,60 +25,69 @@ public class GatherResource : MonoBehaviour, Job {
         timerTime = 0;
         stockpile = GameObject.FindGameObjectWithTag("Stockpile");
         resourceManager = GameObject.Find("ResourceManager").GetComponent<ResourceManager>();
+        currentState = State.GoingToJob;
     }
-	
-	// Update is called once per frame
-	void Update () {
-        if (!isAtJobLocation)
+
+    private void OnEnable()
+    {
+        currentState = State.GoingToJob;
+    }
+
+    // Update is called once per frame
+    void Update() {
+        switch (currentState)
         {
-            var remainingDistance = Vector3.Distance(jobLocation.transform.position, transform.position);
-            if (remainingDistance <= 2f)
-            {                
-                isAtJobLocation = true;
-                nav.isStopped = true;
-            }
-        }
-        else if(!isDroppingOffSupplies && isAtJobLocation)
-        {
-            if (inventory.DoesInventoryHaveEnoughRoom(resource))
-            {
-                timerTime += Time.deltaTime;
-                if (timerTime >= resource.CollectionTime)
+            case State.GoingToJob:
+                remainingDistance = Vector3.Distance(jobLocation.transform.position, transform.position);
+                if (remainingDistance <= 2f)
                 {
-                    Debug.Log("Got Resource");
-                    timerTime = 0;
-                    inventory.Add(resource);
+                    isAtJobLocation = true;
+                    nav.isStopped = true;
+                    currentState = State.GatheringResources;
                 }
-            }
-            else
-            {
-                nav.isStopped = false;
-                nav.SetDestination(stockpile.transform.position);
-                isDroppingOffSupplies = true;
-                Debug.Log("Inventory full");
-            }
-        }
-        else
-        {
-            var remainingDistance = Vector3.Distance(stockpile.transform.position, transform.position);
-            if (remainingDistance <= 3f)
-            {
-                Inventory stockpileInventory = stockpile.GetComponent<Inventory>();
-                bool wasTransferSuccessful = inventory.TransferAll(stockpileInventory);
-                if (wasTransferSuccessful)
+                break;
+            case State.GatheringResources:
+                if (inventory.DoesInventoryHaveEnoughRoom(resource))
                 {
-                    resourceManager.UpdateResourceTotals();
-                    isAtJobLocation = false;
-                    isDroppingOffSupplies = false;
-                    SetTargetDestination();
+                    timerTime += Time.deltaTime;
+                    if (timerTime >= resource.CollectionTime)
+                    {
+                        Debug.Log("Got Resource");
+                        timerTime = 0;
+                        inventory.Add(resource);
+                    }
                 }
                 else
                 {
-                    Debug.Log("Transfer failed.  Idle state active.");
-                    gameObject.GetComponent<ColonistInfo>().ResetCurrentJob();
+                    nav.isStopped = false;
+                    nav.SetDestination(stockpile.transform.position);
+                    isDroppingOffSupplies = true;
+                    Debug.Log("Inventory full");
+                    currentState = State.HaulingResources;
                 }
-            }
-        }     
+                break;
+            case State.HaulingResources:
+                remainingDistance = Vector3.Distance(stockpile.transform.position, transform.position);
+                if (remainingDistance <= 3f)
+                {
+                    Inventory stockpileInventory = stockpile.GetComponent<Inventory>();
+                    bool wasTransferSuccessful = inventory.TransferAll(stockpileInventory);
+                    if (wasTransferSuccessful)
+                    {
+                        resourceManager.UpdateResourceTotals();
+                        isAtJobLocation = false;
+                        isDroppingOffSupplies = false;
+                        SetTargetDestination();
+                        currentState = State.GoingToJob;
+                    }
+                    else
+                    {
+                        Debug.Log("Transfer failed.  Idle state active.");
+                        gameObject.GetComponent<ColonistInfo>().ResetCurrentJob();
+                    }
+                }
+                break;
+        }
     }
 
     public void SetTargetDestination(GameObject target)

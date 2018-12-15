@@ -93,6 +93,7 @@ GameObject:
   - component: {fileID: 114943911910999038}
   - component: {fileID: 114211492187973888}
   - component: {fileID: 65602966471127056}
+  - component: {fileID: 208839357882110218}
   m_Layer: 0
   m_Name: WoodHouse
   m_TagString: House
@@ -486,3 +487,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   colonistPrefab: {fileID: 1441066186241222, guid: 43eed786eef606f4c922c32d14215fd2,
     type: 2}
+--- !u!208 &208839357882110218
+NavMeshObstacle:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1520266737581462}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 1.05, y: 1.05, z: 1.05}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 1, z: 0}
+  m_TimeToStationary: 0.5
