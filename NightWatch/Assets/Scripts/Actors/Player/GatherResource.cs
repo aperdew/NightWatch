@@ -14,6 +14,8 @@ public class GatherResource : MonoBehaviour, Job {
     private enum State { GoingToJob, GatheringResources, HaulingResources}
     private State currentState;
     private float remainingDistance;
+    private float collectionTime;
+    private float collectionDistance;
     UnityEngine.AI.NavMeshAgent nav;
 
     // Use this for initialization
@@ -38,26 +40,35 @@ public class GatherResource : MonoBehaviour, Job {
         switch (currentState)
         {
             case State.GoingToJob:
-                remainingDistance = Vector3.Distance(jobLocation.transform.position, transform.position);
-                if (remainingDistance <= 2f)
+                if (!inventory.DoesInventoryHaveEnoughRoom(resource))
                 {
-                    isAtJobLocation = true;
-                    nav.isStopped = true;
-                    currentState = State.GatheringResources;
+                    nav.SetDestination(stockpile.transform.position);
+                    currentState = State.HaulingResources;
+                }
+                else
+                {
+                    remainingDistance = Vector3.Distance(jobLocation.transform.position, transform.position);
+                    if (remainingDistance <= collectionDistance)
+                    {
+                        isAtJobLocation = true;
+                        nav.isStopped = true;
+                        currentState = State.GatheringResources;
+                    }
                 }
                 break;
             case State.GatheringResources:
-                if (inventory.DoesInventoryHaveEnoughRoom(resource))
+                remainingDistance = Vector3.Distance(jobLocation.transform.position, transform.position);
+                if (inventory.DoesInventoryHaveEnoughRoom(resource) && remainingDistance <= collectionDistance)
                 {
                     timerTime += Time.deltaTime;
-                    if (timerTime >= resource.CollectionTime)
+                    if (timerTime >= collectionTime)
                     {
                         Debug.Log("Got Resource");
                         timerTime = 0;
                         inventory.Add(resource);
                     }
                 }
-                else
+                else if(!inventory.DoesInventoryHaveEnoughRoom(resource))
                 {
                     nav.isStopped = false;
                     nav.SetDestination(stockpile.transform.position);
@@ -101,8 +112,10 @@ public class GatherResource : MonoBehaviour, Job {
         nav.SetDestination(jobLocation.transform.position);
     }
 
-    public void SetResource(Item item)
+    public void SetResource(ObjectResource item)
     {
-        resource = item;
+        resource = item.Resource;
+        collectionDistance = item.collectionDistance;
+        collectionTime = item.collectionTime;
     }
 }

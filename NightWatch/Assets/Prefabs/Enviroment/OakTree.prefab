@@ -38,6 +38,7 @@ GameObject:
   - component: {fileID: 4882495771952360}
   - component: {fileID: 136029654346367778}
   - component: {fileID: 114602683914615316}
+  - component: {fileID: 135812629360106230}
   m_Layer: 0
   m_Name: OakTree
   m_TagString: Tree
@@ -347,6 +348,19 @@ MonoBehaviour:
   resourceName: Wood
   resourceWeight: 20
   collectionTime: 2
+  collectionDistance: 2
+--- !u!135 &135812629360106230
+SphereCollider:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1193789285507936}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 3.75
+  m_Center: {x: 0, y: 6.5, z: 0}
 --- !u!136 &136029654346367778
 CapsuleCollider:
   m_ObjectHideFlags: 1

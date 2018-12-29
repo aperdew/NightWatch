@@ -28,6 +28,9 @@ public class ColonistInfo : MonoBehaviour {
             case "Tree":
                 SetCurrentJob("Lumberjack", hit.gameObject);
                 break;
+            case "Pond":
+                SetCurrentJob("Fisherman", hit.gameObject);
+                break;
         }
     }
 
@@ -41,7 +44,7 @@ public class ColonistInfo : MonoBehaviour {
             Job job = (Job)newJobScript;
             newJobScript.enabled = true;
             job.SetTargetDestination(jobLocation);
-            job.SetResource(jobLocation.GetComponent<ObjectResource>().Resource);
+            job.SetResource(jobLocation.GetComponent<ObjectResource>());
             nav.isStopped = false;
         }
 
@@ -67,6 +70,7 @@ public class ColonistInfo : MonoBehaviour {
         {
             case "Lumberjack":
             case "Stone Miner":
+            case "Fisherman":
                 jobScript = GetComponent<GatherResource>();
                 break;
         }

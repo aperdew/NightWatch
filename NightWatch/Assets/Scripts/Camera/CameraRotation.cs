@@ -16,7 +16,7 @@ public class CameraRotation : MonoBehaviour
     void Update()
     {
         float modifiedRotationSpeed = rotationSpeed / Time.timeScale;
-        if (Input.GetMouseButton(1) && Input.GetAxis("Mouse X") != 0)
+        if (Input.GetMouseButton(2) && Input.GetAxis("Mouse X") != 0)
         {
             rotationY += Input.GetAxis("Mouse X") * modifiedRotationSpeed * 10;
             rotationY %= 360;     
