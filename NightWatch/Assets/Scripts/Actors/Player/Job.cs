@@ -4,7 +4,7 @@ using UnityEngine;
 
 public interface Job {
 
-    void SetResource(Item item);
+    void SetResource(ObjectResource item);
 
     void SetTargetDestination(GameObject target);
 }

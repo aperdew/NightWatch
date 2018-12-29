@@ -22,6 +22,7 @@ GameObject:
   - component: {fileID: 33574865119237272}
   - component: {fileID: 23931011702652582}
   - component: {fileID: 65448786942571512}
+  - component: {fileID: 114535328255579500}
   m_Layer: 0
   m_Name: Stockpile
   m_TagString: Stockpile
@@ -96,3 +97,15 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &114535328255579500
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1041033183776160}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7f64a8d6a3b9e07429fe6ebf62a3e6a0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxWeight: 10000

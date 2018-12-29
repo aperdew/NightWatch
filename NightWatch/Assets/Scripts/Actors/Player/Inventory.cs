@@ -101,15 +101,23 @@ public class Inventory : MonoBehaviour
         return null;
     }
 
-    public List<Bundle> TransferAll()
+    /// <summary>
+    /// Transfers all of the contents of the inventory into another inventory
+    /// </summary>
+    /// <param name="transferTo">The inventory that the contents should be transfered to</param>
+    /// <returns>Returns true if the transfer was successful.  Returns false if the transfer failed.</returns>
+    public bool TransferAll(Inventory transferTo)
     {
-        Bundle[] temp = new Bundle[inventoryList.Count];
-        inventoryList.CopyTo(temp);
-        for (int i = 0; i < inventoryList.Count; i++)
+        if (transferTo !=null && transferTo.DoesInventoryHaveEnoughRoom(inventoryList))
         {
-            Remove(inventoryList[i]);
+            transferTo.Add(inventoryList);
+            for (int i = 0; i < inventoryList.Count; i++)
+            {
+                Remove(inventoryList[i]);
+            }
+            return true;
         }
-        return new List<Bundle>(temp);
+        return false;
     }
 
     public void Remove(Bundle bundle)
@@ -168,7 +176,7 @@ public class Inventory : MonoBehaviour
     /// <returns>Returns true if there is enough room for the item.  Returns false if there isn't enough room.</returns>
     public bool DoesInventoryHaveEnoughRoom(Item item)
     {
-        if(CurrentWeight + item.Weight <= MaxWeight)
+        if(CurrentWeight + item.Weight < MaxWeight)
         {
             return true;
         }
@@ -182,9 +190,31 @@ public class Inventory : MonoBehaviour
     /// <returns>Returns true if there is enough room for the bundle.  Returns false if there isn't enough room.</returns>
     public bool DoesInventoryHaveEnoughRoom(Bundle bundle)
     {
-        if(bundle != null && CurrentWeight + bundle.Weight <= MaxWeight)
+        if(bundle != null && CurrentWeight + bundle.Weight < MaxWeight)
         {
             return true;
+        }
+        return false;
+    }
+
+    /// <summary>
+    /// Checks if the inventory has enough room for a list of bundles.
+    /// </summary>
+    /// <param name="bundles">The list of bundles to be added to the inventory</param>
+    /// <returns>Returns true if there is enough room for the list of bundles.  Returns false if there isn't enough room.</returns>
+    public bool DoesInventoryHaveEnoughRoom(List<Bundle> bundles)
+    {
+        if(bundles != null)
+        {
+            float totalWeight = 0;
+            foreach(Bundle bundle in bundles)
+            {
+                totalWeight += bundle.Weight;
+            }
+            if(CurrentWeight+totalWeight < MaxWeight)
+            {
+                return true;
+            }
         }
         return false;
     }

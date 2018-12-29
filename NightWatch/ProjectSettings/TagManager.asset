@@ -12,6 +12,9 @@ TagManager:
   - Tree
   - House
   - Stockpile
+  - Ground
+  - GhostPrefab
+  - Pond
   layers:
   - Default
   - TransparentFX

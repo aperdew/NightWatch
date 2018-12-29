@@ -6,9 +6,10 @@ public class ObjectResource : MonoBehaviour {
     public string resourceName;
     public float resourceWeight;
     public float collectionTime;
+    public float collectionDistance;
 	// Use this for initialization
 	void Start () {
-        Resource = new Item(resourceName, resourceWeight, collectionTime);
+        Resource = new Item(resourceName, resourceWeight);
 	}
 	
 	// Update is called once per frame

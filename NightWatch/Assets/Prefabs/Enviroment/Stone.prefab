@@ -98,8 +98,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   resourceName: Stone
-  resourceWeight: 50
+  resourceWeight: 45
   collectionTime: 3
+  collectionDistance: 3
 --- !u!136 &136440620235138774
 CapsuleCollider:
   m_ObjectHideFlags: 1
